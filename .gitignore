@@ -7,7 +7,8 @@ config.custom.json
 # Data parts
 data/sources/*
 # Exceptions like
-# !data/sources/source-data.csv
+!data/sources/MPLS2040_Draft_FLU_BltFrm-20180730.zip
+!data/sources/MPLS2040Data-20181004.zip
 
 data/build/*
 # Exceptions like

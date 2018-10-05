@@ -20,30 +20,62 @@
 BASE=data
 
 
-; EXAMPLE: Download file. Using the %download tag, we can download
-; all things with drake %download
-sources/population-zip-code-2010.csv, %download <- [-timecheck]
+; Download planning zones
+sources/minneapolis-primary-planning-zones.zip, %download <- [-timecheck]
   mkdir -p $BASE/sources
-  wget -O $OUTPUT "https://data.lacity.org/api/views/nxs9-385f/rows.csv?accessType=DOWNLOAD"
-  echo "If you have mutliple inputs and outputs, then you can do $INPUT, $INPUT2, $OUTPUT, $OUTPUT2, etc"
-
-sources/youth-tobacco-survey.csv, %download <- [-timecheck]
-  mkdir -p $BASE/sources
-  wget -O $OUTPUT "https://chronicdata.cdc.gov/api/views/4juz-x2tp/rows.csv?accessType=DOWNLOAD"
+  wget -O $OUTPUT "https://opendata.arcgis.com/datasets/f780d0fe4edc44cd8c4c9e0a4d9efccd_0.zip"
 
 
-; EXAMPLE: Convert to JSON
-build/population-zip-code-2010.json, %convert <- sources/population-zip-code-2010.csv
-  mkdir -p $BASE/build
-  csvjson $INPUT > $OUTPUT
+; Decompress
+sources/minneapolis-primary-planning-zones/Planning_Primary_Zoning.shp, %decompress <- sources/minneapolis-primary-planning-zones.zip
+  unzip -d $BASE/sources/minneapolis-primary-planning-zones -o $INPUT
+  touch $OUTPUT
+
+sources/mpls2040-20180730/MPLS2040_Draft_FLU_BltFrm.shp, %decompress <- sources/MPLS2040_Draft_FLU_BltFrm-20180730.zip
+  unzip -d $BASE/sources/mpls2040-20180730 -o $INPUT
+  touch $OUTPUT
+
+sources/mpls2040-20181004/MPLS2040Data/Mpls_2040_FLU_BltFrm_Sept_21_2018.shp, %decompress <- sources/MPLS2040Data-20181004.zip
+  unzip -d $BASE/sources/mpls2040-20181004 -o $INPUT
+  touch $OUTPUT
 
 
-; EXAMPLE: Raw JS processing (if more than a few lines, use a separate file)
-%youth-tobacco-survey.analysis, %analysis <- sources/youth-tobacco-survey.csv [node]
-  const fs = require('fs');
-  const csv = require('d3-dsv').dsvFormat(',');
-  let survey = csv.parse(fs.readFileSync(process.env.INPUT, 'utf-8'));
-  console.log('Survey rows: ', survey.length);
+; Convert to 4326
+build/mpls-primary-planning-zones-4326/mpls-primary-planning-zones-4326.shp, %convert <- sources/minneapolis-primary-planning-zones/Planning_Primary_Zoning.shp
+  mkdir -p $BASE/build/mpls-primary-planning-zones-4326
+  ogr2ogr -f "ESRI Shapefile" $OUTPUT $INPUT -t_srs EPSG:4326 -overwrite
+
+build/mpls2040-20180730-4326/mpls2040-20180730-4326.shp, %convert <- sources/mpls2040-20180730/MPLS2040_Draft_FLU_BltFrm.shp
+  mkdir -p $BASE/build/mpls2040-20180730-4326
+  ogr2ogr -f "ESRI Shapefile" $OUTPUT $INPUT -t_srs EPSG:4326 -overwrite
+
+build/mpls2040-20181004-4326/mpls2040-20181004-4326.shp, %convert <- sources/mpls2040-20181004/MPLS2040Data/Mpls_2040_FLU_BltFrm_Sept_21_2018.shp
+  mkdir -p $BASE/build/mpls2040-20181004-4326
+  ogr2ogr -f "ESRI Shapefile" $OUTPUT $INPUT -t_srs EPSG:4326 -overwrite
+
+
+; Import into Postgres
+build/mpls-primary-planning-zones-4326.sql, %import <- build/mpls-primary-planning-zones-4326/mpls-primary-planning-zones-4326.shp
+  shp2pgsql -d $BASE/build/mpls-primary-planning-zones-4326/mpls-primary-planning-zones-4326 mpls_primary_zoning > $OUTPUT
+
+build/mpls2040-20180730-4326.sql, %import <- build/mpls2040-20180730-4326/mpls2040-20180730-4326.shp
+  shp2pgsql -d $BASE/build/mpls2040-20180730-4326/mpls2040-20180730-4326 mpls2040_20180730 > $OUTPUT
+
+build/mpls2040-20181004-4326.sql, %import <- build/mpls2040-20181004-4326/mpls2040-20181004-4326.shp
+  shp2pgsql -d $BASE/build/mpls2040-20181004-4326/mpls2040-20181004-4326 mpls2040_20181004 > $OUTPUT
+
+build/db-created, %db, %import <- [-timecheck]
+  psql -U ${PG_USER:?"PG_USER needs to be set"} -c "SELECT 1 FROM pg_database WHERE datname = 'mpls2040'" | grep -q 1 || psql -U ${PG_USER:?"PG_USER needs to be set"} -c "CREATE DATABASE mpls2040" && \
+  psql -U ${PG_USER:?"PG_USER needs to be set"} -d mpls2040 -c "CREATE EXTENSION IF NOT EXISTS postgis;" && \
+  psql -U ${PG_USER:?"PG_USER needs to be set"} -d mpls2040 -c "CREATE EXTENSION IF NOT EXISTS postgis_topology;" && \
+  touch $OUTPUT
+
+build/db-tables-imported, %db, %import <- build/db-created, build/mpls-primary-planning-zones-4326.sql, build/mpls2040-20180730-4326.sql, build/mpls2040-20181004-4326.sql, sources/zoning-definitions.sql, lib/fix-geometries.sql
+  psql -U ${PG_USER:?"PG_USER needs to be set"} -d mpls2040 < $INPUT1
+  psql -U ${PG_USER:?"PG_USER needs to be set"} -d mpls2040 < $INPUT2
+  psql -U ${PG_USER:?"PG_USER needs to be set"} -d mpls2040 < $INPUT3
+  psql -U ${PG_USER:?"PG_USER needs to be set"} -d mpls2040 < $INPUT4
+  psql -U ${PG_USER:?"PG_USER needs to be set"} -d mpls2040 < $INPUT5
 
 
 ; Cleanup tasks
