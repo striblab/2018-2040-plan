@@ -76,6 +76,23 @@ build/db-tables-imported, %db, %import <- build/db-created, build/mpls-primary-p
   psql -U ${PG_USER:?"PG_USER needs to be set"} -d mpls2040 < $INPUT3
   psql -U ${PG_USER:?"PG_USER needs to be set"} -d mpls2040 < $INPUT4
   psql -U ${PG_USER:?"PG_USER needs to be set"} -d mpls2040 < $INPUT5
+  touch $OUTPUT
+
+
+
+build/db-analysis, %analysis <- build/db-tables-imported, lib/change-analysis.sql
+  psql -U ${PG_USER:?"PG_USER needs to be set"} -d mpls2040 < $INPUT1
+  touch $OUTPUT
+
+
+
+build/changed-grouped.geo.json, %export <- build/db-analysis
+  ogr2ogr -f GeoJSON $OUTPUT \
+  "PG:host=localhost dbname=mpls2040 user=${PG_USER:?'PG_USER needs to be set'}" \
+  -sql "SELECT * FROM code_changes_aggregate"
+
+
+
 
 
 ; Cleanup tasks
