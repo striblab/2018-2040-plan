@@ -1,3 +1,42 @@
 /**
  * Project specific styling.
  */
+
+.hero {
+  h1 {
+    font-size: 4em;
+  }
+
+  p.lead {
+    font-size: 1.85em;
+  }
+}
+
+.container-xxl {
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 1em;
+  padding-left: 1em;
+  max-width: 1500px;
+
+  @media (min-width: 1500px) {
+    padding: 0;
+  }
+}
+
+.bottom-space {
+  margin-bottom: 2em;
+}
+
+footer {
+  margin-bottom: 3em;
+}
+
+.map-figure {
+  margin-bottom: 2em;
+}
+
+.map-embed {
+  height: 600px;
+  height: 90vh;
+}
