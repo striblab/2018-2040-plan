@@ -40,3 +40,32 @@ footer {
   height: 600px;
   height: 90vh;
 }
+
+.map-highlight {
+  width: 100%;
+  height: 600px;
+  height: 80vh;
+  min-height: 400px;
+}
+
+// Some overrides for MapboxGL
+.mapboxgl-ctrl-group > button {
+  border-radius: 0;
+  background-color: inherit;
+  outline: 0 !important;
+  padding: 0;
+
+  &:hover {
+    background-color: #cdcdcd;
+  }
+}
+
+a.mapboxgl-ctrl-logo:empty {
+  outline: 0 !important;
+}
+
+// Leaflet overrides for consistency
+.leaflet-bar a {
+  background-color: #ffffff;
+  border-radius: 0;
+}
