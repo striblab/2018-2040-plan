@@ -48,24 +48,176 @@ footer {
   min-height: 400px;
 }
 
-// Some overrides for MapboxGL
-.mapboxgl-ctrl-group > button {
-  border-radius: 0;
-  background-color: inherit;
-  outline: 0 !important;
-  padding: 0;
+.container-xxl .map-highlight {
+  height: 90vh;
+}
 
-  &:hover {
-    background-color: #cdcdcd;
+// Legend
+.map-legend {
+  .legend-title {
+    @extend .label;
+  }
+
+  .swatches {
+  }
+
+  .swatch {
+    margin-bottom: 0.5em;
+    padding-right: 1em;
+    font-size: 0.75em;
+  }
+
+  .swatch-title {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .swatch-color {
+    display: inline-block;
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 2px;
+    vertical-align: middle;
+    margin-right: 0.15em;
   }
 }
 
-a.mapboxgl-ctrl-logo:empty {
-  outline: 0 !important;
+// Zoning definitions
+.zoning-definitions {
+  .label {
+    margin-bottom: 0.5em;
+  }
+
+  .definitions {
+    font-size: 0.85em;
+    margin-bottom: 1.15em;
+    position: relative;
+  }
+
+  dt,
+  dd {
+    margin: 0;
+  }
+
+  .definition {
+    margin-bottom: 1em;
+  }
+
+  dl {
+    position: relative;
+  }
+
+  &.with-js .definition {
+    cursor: help;
+  }
+
+  dt {
+    min-height: 3.5em;
+  }
+
+  .label-swatch {
+    display: inline-block;
+    margin-left: 0.5em;
+    width: 1em;
+    height: 1em;
+    vertical-align: baseline;
+    border-radius: 2px;
+  }
+
+  &.with-js dd {
+    height: 10em;
+    overflow: hidden;
+  }
+
+  .active dd {
+    height: auto;
+    overflow: auto;
+    min-height: 10em;
+    width: 30em;
+    max-width: 95vw;
+    position: absolute;
+    left: 0;
+    top: 3.5em;
+    z-index: 10;
+    background-color: #cecece;
+    padding: 0.65em;
+  }
+
+  .active-right dd {
+    right: 0;
+    left: auto;
+  }
+
+  .placeholder {
+    display: none;
+  }
+
+  .active .placeholder {
+    display: block;
+    height: 10em;
+  }
 }
 
-// Leaflet overrides for consistency
-.leaflet-bar a {
-  background-color: #ffffff;
-  border-radius: 0;
+// Popup
+.popup-content {
+  max-width: 30em;
+
+  .popup-label {
+    font-size: 1.25em;
+    margin-bottom: 1em;
+  }
+
+  .popup-section {
+    margin-bottom: 1em;
+  }
+}
+
+// Some overrides for MapboxGL
+.mapboxgl-ctrl-top-right {
+  .mapboxgl-ctrl button,
+  .mapboxgl-ctrl-group button {
+    border-radius: 0;
+    background-color: inherit;
+    outline: 0 !important;
+    padding: 0;
+
+    &:hover {
+      background-color: #cdcdcd;
+    }
+  }
+
+  a.mapboxgl-ctrl-logo:empty {
+    outline: 0 !important;
+  }
+
+  // Leaflet overrides for consistency
+  .leaflet-bar a {
+    background-color: #ffffff;
+    border-radius: 0;
+  }
+
+  .mapboxgl-ctrl-geocoder.mapboxgl-ctrl {
+    input {
+      font-size: 12px;
+      width: 100%;
+      border: 0;
+      background-color: transparent;
+      height: 40px;
+      margin: 0;
+      color: rgba(0, 0, 0, 0.5);
+      padding: 10px 10px 10px 40px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+
+  .mapboxgl-ctrl-geocoder ul {
+    margin: 0;
+    padding: 0;
+
+    a {
+      text-decoration: none;
+    }
+  }
 }

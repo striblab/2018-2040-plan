@@ -7,19 +7,15 @@
 // Dependencies
 import { each, extend } from 'lodash';
 import utils from './shared/utils.js';
+import mapConfig from './shared/map-config.js';
+import popupContent from './shared/popup.js';
+import definitions from './shared/zoning-definitions.js';
 
 // Mark page with note about development or staging
 utils.environmentNoting();
 
 // Mapbox access token
-mapboxgl.accessToken =
-  'pk.eyJ1Ijoic2hhZG93ZmxhcmUiLCJhIjoiS3pwY1JTMCJ9.pTSXx_LFgR3XBpCNNxWPKA';
-
-// Data layer to manipulate
-const dataLayer = 'changed-grouped-atu4km';
-
-// Use fresh map, TODO: remove later
-const fresh = true;
+mapboxgl.accessToken = mapConfig.accessToken;
 
 // Style definitions
 let mapDefinitions = {
@@ -94,9 +90,7 @@ each(mapDefinitions, (def, id) => {
     extend(
       {
         container: id,
-        style: `mapbox://styles/shadowflare/cjn24l6q300n12rpojx7vz1j7${
-          fresh ? '?fresh=true' : ''
-        }`,
+        style: mapConfig.style,
         attributionControl: false,
         scrollZoom: false
       },
@@ -112,7 +106,7 @@ each(mapDefinitions, (def, id) => {
     // Do styles
     if (def.styles) {
       each(def.styles, (expression, prop) => {
-        def.map.setPaintProperty(dataLayer, prop, expression);
+        def.map.setPaintProperty(mapConfig.dataLayer, prop, expression);
       });
     }
 
@@ -122,27 +116,23 @@ each(mapDefinitions, (def, id) => {
       closeOnClick: false
     });
 
-    // On mouse over
-    def.map.on('mouseover', dataLayer, function(e) {
-      // Change the cursor style as a UI indicator.
-      def.map.getCanvas().style.cursor = 'pointer';
-
-      var description = `
-        ${e.features[0].properties.zone_code} ->
-        ${e.features[0].properties.built_form}
-      `;
-
-      // Populate the popup and set its coordinates
-      // based on the feature found.
-      def.popup
-        .setLngLat(e.lngLat)
-        .setHTML(description)
-        .addTo(def.map);
+    // Popup events
+    def.map.on('mousemove', mapConfig.dataLayer, e => {
+      if (e && e.features && e.features[0]) {
+        def.map.getCanvas().style.cursor = 'pointer';
+        def.popup
+          .setLngLat(e.lngLat)
+          .setHTML(popupContent(e))
+          .addTo(def.map);
+      }
+      else {
+        def.map.getCanvas().style.cursor = '';
+        def.popup.setHTML('').remove();
+      }
     });
-
-    def.map.on('mouseleave', dataLayer, function() {
+    def.map.on('mouseout', mapConfig.dataLayer, e => {
       def.map.getCanvas().style.cursor = '';
-      def.popup.remove();
+      def.popup.setHTML('').remove();
     });
 
     // Selectable
@@ -152,7 +142,7 @@ each(mapDefinitions, (def, id) => {
         let built = $('#select-built-form').val();
 
         if (!zoning && !built) {
-          def.map.setPaintProperty(dataLayer, 'fill-opacity', 1);
+          def.map.setPaintProperty(mapConfig.dataLayer, 'fill-opacity', 1);
           return;
         }
 
@@ -163,7 +153,7 @@ each(mapDefinitions, (def, id) => {
         if (built) {
           all.push(['==', ['get', 'built_form'], built]);
         }
-        def.map.setPaintProperty(dataLayer, 'fill-opacity', [
+        def.map.setPaintProperty(mapConfig.dataLayer, 'fill-opacity', [
           'case',
           all,
           1,
@@ -173,3 +163,6 @@ each(mapDefinitions, (def, id) => {
     }
   });
 });
+
+// Handle zoning definitions
+definitions();

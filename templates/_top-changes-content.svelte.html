@@ -32,6 +32,8 @@
         <figcaption>
           <h3 class="label">R1 to Interior 1</h3>
           <p>Veniam mollit fugiat laborum consequat occaecat minim velit proident laborum consectetur veniam ad enim. Dolore incididunt nisi</p>
+
+          <Legend />
         </figcaption>
 
         <div class="map-highlight" id="map-r1-to-interior-1"></div>
@@ -47,6 +49,8 @@
         <figcaption>
           <h3 class="label">R1 to Interior 2</h3>
           <p>Veniam mollit fugiat laborum consequat occaecat minim velit proident laborum consectetur veniam ad enim. Dolore incididunt nisi</p>
+
+          <Legend />
         </figcaption>
 
         <div class="map-highlight" id="map-r1-to-interior-2"></div>
@@ -62,6 +66,8 @@
         <figcaption>
           <h3 class="label">R1 to Corridor 4</h3>
           <p>Veniam mollit fugiat laborum consequat occaecat minim velit proident laborum consectetur veniam ad enim. Dolore incididunt nisi</p>
+
+          <Legend />
         </figcaption>
 
         <div class="map-highlight" id="map-r1-to-corridor-4"></div>
@@ -124,6 +130,8 @@
               <option value="Transportation">Transportation</option>
             </select>
           </div>
+
+          <Legend />
         </figcaption>
 
         <div class="map-highlight" id="map-select"></div>
@@ -132,6 +140,10 @@
 
     <div class="container-copy bottom-space">
       <p>Veniam mollit fugiat laborum consequat occaecat minim velit proident laborum consectetur veniam ad enim. Dolore incididunt nisi deserunt nisi incididunt anim eu aute sunt amet id. Aliqua commodo cupidatat dolor elit veniam. Lorem enim aliqua occaecat exercitation Lorem tempor elit occaecat fugiat culpa eiusmod excepteur excepteur. Cillum et veniam ut pariatur fugiat ea.</p>
+    </div>
+
+    <div class="container-lg bottom-space">
+      <ZoningDefinitions />
     </div>
 
     <div class="container-copy">
@@ -152,5 +164,15 @@
   </section>
 </div>
 
+<script>
+  import Legend from "./shared/_map-legend.svelte.html";
+  import ZoningDefinitions from "./shared/_zoning-definitions.svelte.html";
 
+  export default {
+    components: {
+      Legend,
+      ZoningDefinitions
+    }
+  };
+</script>
 

@@ -2,51 +2,67 @@
  * Main JS file for project.
  */
 
-// Define globals that are added through the js.globals in
-// the config.json file, here, mostly so linting won't get triggered
-// and its a good queue of what is available:
-// /* global _ */
+/* global mapboxgl, MapboxGeocoder */
 
 // Dependencies
 import utils from './shared/utils.js';
+import mapConfig from './shared/map-config.js';
+import definitions from './shared/zoning-definitions.js';
+import popupContent from './shared/popup.js';
 
 // Mark page with note about development or staging
 utils.environmentNoting();
 
+// Mapbox access token
+mapboxgl.accessToken = mapConfig.accessToken;
 
+// Create map
+const map = new mapboxgl.Map({
+  container: 'explorable-map',
+  style: mapConfig.style,
+  attributionControl: false
+  //scrollZoom: false
+});
 
-// Adding dependencies
-// ---------------------------------
-// Import local ES6 or CommonJS modules like this:
-// import utilsFn from './shared/utils.js';
-//
-// Or import libraries installed with npm like this:
-// import module from 'module';
+// Add controls
+map.addControl(new mapboxgl.NavigationControl());
 
-// Adding Svelte templates in the client
-// ---------------------------------
-// We can bring in the same Svelte templates that we use
-// to render the HTML into the client for interactivity.  The key
-// part is that we need to have similar data.
-//
-// First, import the template.  This is the main one, and will
-// include any other templates used in the project.
-// import Content from '../templates/_index-content.svelte.html';
-//
-// Get the data parts that are needed.  There are two ways to do this.
-// If you are using the buildData function to get data, then ?
-//
-// 1. For smaller datasets, just import them like other files.
-// import content from '../assets/data/content.json';
-//
-// 2. For larger data points, utilize window.fetch.
-// let content = await (await window.fetch('../assets/data/content.json')).json();
-//
-// Once you have your data, use it like a Svelte component:
-//
-// const app = new Content({
-//   target: document.querySelector('.article-lcd-body-content'),
-//   data: {
-//     content
-//   }
-// });
+// Geocoding control
+map.addControl(
+  new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    country: 'us',
+    bbox: [-93.351288, 44.874126, -93.16143, 45.060676]
+  })
+);
+
+// When ready
+map.on('load', () => {
+  // Create a popup
+  let popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false
+  });
+
+  // Popup events
+  map.on('mousemove', mapConfig.dataLayer, e => {
+    if (e && e.features && e.features[0]) {
+      map.getCanvas().style.cursor = 'pointer';
+      popup
+        .setLngLat(e.lngLat)
+        .setHTML(popupContent(e))
+        .addTo(map);
+    }
+    else {
+      map.getCanvas().style.cursor = '';
+      popup.setHTML('').remove();
+    }
+  });
+  map.on('mouseout', mapConfig.dataLayer, e => {
+    map.getCanvas().style.cursor = '';
+    popup.setHTML('').remove();
+  });
+});
+
+// Handle zoning definitions
+definitions();

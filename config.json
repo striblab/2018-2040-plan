@@ -28,13 +28,15 @@
 
   "styles": {
     "globals": [
-      "https://api.tiles.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.css"
+      "https://api.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.css",
+      "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.css"
     ]
   },
   "js": {
     "globals": [
       "https://cdn.polyfill.io/v2/polyfill.min.js",
-      "https://api.tiles.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.js"
+      "https://api.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.js",
+      "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.3.0/mapbox-gl-geocoder.min.js"
     ]
   },
   "publishToken": "4990e0ef503983148dae0cd63970d38f",
