@@ -84,35 +84,26 @@ footer {
 
 // Zoning definitions
 .zoning-definitions {
-  .label {
-    margin-bottom: 0.5em;
+  padding-top: 2em;
+
+  .type-description {
+    max-width: 37em;
+    margin-bottom: 1.15em;
   }
 
   .definitions {
-    font-size: 0.85em;
-    margin-bottom: 1.15em;
-    position: relative;
-  }
-
-  dt,
-  dd {
-    margin: 0;
+    margin-bottom: 2em;
+    padding: 0;
   }
 
   .definition {
-    margin-bottom: 1em;
   }
 
-  dl {
-    position: relative;
-  }
-
-  &.with-js .definition {
-    cursor: help;
-  }
-
-  dt {
-    min-height: 3.5em;
+  .definition-wrapper {
+    margin-bottom: 1.15em;
+    font-size: 0.85em;
+    padding: 0.85em;
+    background-color: #ededed;
   }
 
   .label-swatch {
@@ -124,37 +115,27 @@ footer {
     border-radius: 2px;
   }
 
-  &.with-js dd {
-    height: 10em;
-    overflow: hidden;
+  .image-render {
+    margin-bottom: 0.5em;
   }
 
-  .active dd {
-    height: auto;
-    overflow: auto;
-    min-height: 10em;
-    width: 30em;
-    max-width: 95vw;
-    position: absolute;
-    left: 0;
-    top: 3.5em;
-    z-index: 10;
-    background-color: #cecece;
-    padding: 0.65em;
+  .image-placeholder {
+    @include aspect-ratio(277, 152);
+
+    em {
+      position: absolute;
+      display: block;
+      top: 0;
+      left: 0;
+      right: 0;
+      text-align: center;
+      padding-top: 3em;
+      font-size: 0.85em;
+    }
   }
 
-  .active-right dd {
-    right: 0;
-    left: auto;
-  }
-
-  .placeholder {
+  .definitions-zoning .image-placeholder {
     display: none;
-  }
-
-  .active .placeholder {
-    display: block;
-    height: 10em;
   }
 }
 
@@ -169,6 +150,64 @@ footer {
 
   .popup-section {
     margin-bottom: 1em;
+  }
+}
+
+// Marker
+.simple-marker {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgba(230, 230, 230, 0.5);
+  border: 2px dashed #222222;
+}
+
+// Address search
+label[for="address-search"] {
+  font-weight: bold;
+}
+.address-search {
+  .mapboxgl-ctrl-geocoder {
+    font-size: 1.25em;
+    box-shadow: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    min-width: none;
+    max-width: none;
+
+    input:not([type="submit"]) {
+      width: 100%;
+      display: block;
+      padding: 0.5em 2em;
+      height: auto;
+    }
+
+    button {
+      border-radius: 0;
+      background-color: inherit;
+      outline: 0 !important;
+      padding: 0;
+
+      &:hover {
+        background-color: #cdcdcd;
+      }
+    }
+
+    .geocoder-icon {
+      top: 0.63em;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      font-size: 0.85em;
+
+      a {
+        text-decoration: none;
+        padding: 0.25em 0.5em;
+      }
+    }
   }
 }
 

@@ -5,7 +5,12 @@
 
   "data": {
     "content": "./content.json",
-    "pkg": "./package.json"
+    "pkg": "./package.json",
+    "zoningDefinitions": {
+      "source": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTkJbqa6VidslZKOeENBY1oqHB6pThAEVW7OvjTteF0jPxXp5oLaESy8UcYULC_Vb6w0-wNe4a9IxPJ/pub?output=csv",
+      "type": "csv",
+      "local": "zoning-definitions.json"
+    }
   },
 
   "cms": {

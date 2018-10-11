@@ -5,10 +5,10 @@
 // Dependencies
 import { keyBy } from 'lodash';
 import mapConfig from './map-config.js';
-import definitions from '../../sources/zoning_definitions.json';
+import zoningDefinitions from '../../assets/data/zoning-definitions.json';
 
 // Keyed definitions
-const keyedDefinitions = keyBy(definitions, d => `${d.code}-${d.type}`);
+const keyedDefinitions = keyBy(zoningDefinitions, d => `${d.Code}-${d.Type}`);
 
 // Main function
 export default e => {
@@ -16,30 +16,45 @@ export default e => {
     return '';
   }
 
+  let zoneDef =
+    keyedDefinitions[`${e.features[0].properties.zone_code}-zoning`];
+  let builtDef =
+    keyedDefinitions[`${e.features[0].properties.built_form}-2040-built-form`];
+
   return `
     <div class="popup-content">
       <div class="popup-label">
-        <strong>${e.features[0].properties.zone_code}</strong>
-        to
-        <strong>${e.features[0].properties.built_form}</strong>
+        From
+        <strong>
+          ${e.features[0].properties.zone_code}:
+          ${zoneDef.Label}
+        </strong>
       </div>
 
       <div class="popup-section">
-        <strong>${e.features[0].properties.zone_code}</strong><br>
-        ${
-  keyedDefinitions[e.features[0].properties.zone_code + '-zoning']
-    .description
-}
+        ${zoneDef['Strib Description'] || zoneDef['Description']}
+      </div>
+
+      <div class="popup-label">
+        To
+        <strong>
+          ${builtDef.Label}
+        </strong>
       </div>
 
       <div class="popup-section">
-        <strong>${e.features[0].properties.built_form}</strong><br>
-        ${
-  keyedDefinitions[
-    e.features[0].properties.built_form + '-2040-built-form'
-  ].description
-}
+        ${builtDef['Strib Description'] || builtDef['Description']}
       </div>
+
+      ${
+  builtDef['Image Render']
+    ? '<img class="image-render" src="./assets/images/built-forms/' +
+            builtDef['Image Render'] +
+            '" alt="Rendering of ' +
+            builtDef.Label +
+            '">'
+    : ''
+}
     </div>
   `;
 };
