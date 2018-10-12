@@ -11,6 +11,10 @@ import zoningDefinitions from '../../assets/data/zoning-definitions.json';
 // Keyed definitions
 const keyedDefinitions = keyBy(zoningDefinitions, d => `${d.Code}-${d.Type}`);
 
+// Publish location
+const publishLocation =
+  'http://static.startribune.com/news/projects/all/2018-2040-plan/';
+
 // Main class
 class Popover {
   constructor({ map }) {
@@ -87,7 +91,9 @@ class Popover {
 } col-md-100 image-column">
           ${
   builtDef['Image Render']
-    ? '<img class="image-render" src="./assets/images/built-forms/' +
+    ? '<img class="image-render" src="' +
+                publishLocation +
+                'assets/images/built-forms/' +
                 builtDef['Image Render'] +
                 '" alt="Rendering of ' +
                 builtDef.Label +
@@ -97,7 +103,9 @@ class Popover {
 
           ${
   builtDef['Image Elevation']
-    ? '<img class="image-elevation" src="./assets/images/built-forms/' +
+    ? '<img class="image-elevation" src="' +
+                publishLocation +
+                'assets/images/built-forms/' +
                 builtDef['Image Elevation'] +
                 '" alt="Elevation rendering of ' +
                 builtDef.Label +

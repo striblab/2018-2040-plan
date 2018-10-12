@@ -8,16 +8,18 @@ import { maxBy } from 'lodash';
 // Main export
 export default () => {
   // Get heights to align
-  $('.definitions').each((i, el) => {
-    let maxHeight = $(
-      maxBy($(el).find('.definition'), d => {
-        return $(d).height();
-      })
-    ).height();
+  $(window).on('load', () => {
+    $('.definitions').each((i, el) => {
+      let maxHeight = $(
+        maxBy($(el).find('.definition'), d => {
+          return $(d).height();
+        })
+      ).height();
 
-    $(el)
-      .find('.definition-wrapper')
-      .css('height', `${maxHeight}px`);
+      $(el)
+        .find('.definition-wrapper')
+        .css('height', `${maxHeight}px`);
+    });
   });
 
   // // Definitions

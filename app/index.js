@@ -96,6 +96,7 @@ map.on('load', () => {
     // else {
     //   popover.close();
     // }
+    popover.close();
 
     // Mark last geocode
     lastGeocode = result.center.toString();

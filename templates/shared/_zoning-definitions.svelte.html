@@ -9,7 +9,7 @@
           <li class="definition col col-100 col-md-33 col-lg-25 col-xl-20">
             <div class="definition-wrapper">
               {#if def['Image Render']}
-                <img class="image-render" src="./assets/images/built-forms/{ def['Image Render'] }" alt="Rendering of { def.Label}">
+                <img class="image-render" src="{ publishLocation }assets/images/built-forms/{ def['Image Render'] }" alt="Rendering of { def.Label}">
               {:else}
                 <div class="image-render image-placeholder">
                   <em>No rendering provided</em>
@@ -30,7 +30,7 @@
               </dl>
 
               {#if def['Image Elevation']}
-                <img class="image-elevation" src="./assets/images/built-forms/{ def['Image Elevation'] }" alt="Elevation rendering of { def.Label}">
+                <img class="image-elevation" src="{ publishLocation }assets/images/built-forms/{ def['Image Elevation'] }" alt="Elevation rendering of { def.Label}">
               {/if}
             </div>
           </li>
@@ -52,6 +52,8 @@
 
     data: () => {
       return {
+        publishLocation:
+          "http://static.startribune.com/news/projects/all/2018-2040-plan/",
         zoningDefs: groupBy(zoningDefs, "Type"),
         builtFormsColors: mapConfig.builtFormsColors,
         typeNames: {
@@ -62,7 +64,7 @@
           //"2040-land-use": "Minneapolis 2040 Plan land use definitions",
           zoning: {
             title: "Current Minneapolis Zoning",
-            description: `The current <a href="http://www.ci.minneapolis.mn.us/zoningmaps/zoning_code_index" target="_blank" rel="noopener">Minneapolis zoning code</a> describe in legal detail how land can be used in the city.  There is a Primary Zoning code and an Overlay Zoning code (not defined here) that adjusts the Primary code for certain parts of the city.`
+            description: `The current <a href="http://www.ci.minneapolis.mn.us/zoningmaps/zoning_code_index" target="_blank" rel="noopener">Minneapolis zoning code</a> describes how land can be used in the city.  There is a Primary Zoning code and an Overlay Zoning code (not defined or pictured here) that adjusts the Primary code for certain parts of the city.`
           }
         }
       };
