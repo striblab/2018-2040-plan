@@ -13,8 +13,8 @@ class Marker {
     this.marker = new mapboxgl.Marker(this.el);
   }
 
-  moveTo(feature) {
-    this.marker.setLngLat(feature.geometry.coordinates).addTo(this.map);
+  moveTo(lngLat) {
+    this.marker.setLngLat(lngLat).addTo(this.map);
   }
 
   hide() {

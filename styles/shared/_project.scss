@@ -4,7 +4,7 @@
 
 .hero {
   h1 {
-    font-size: 4em;
+    font-size: 3.5em;
   }
 
   p.lead {
@@ -50,6 +50,7 @@ footer {
 
 .container-xxl .map-highlight {
   height: 90vh;
+  position: relative;
 }
 
 // Legend
@@ -59,12 +60,16 @@ footer {
   }
 
   .swatches {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-height: 3em;
   }
 
   .swatch {
     margin-bottom: 0.5em;
-    padding-right: 1em;
-    font-size: 0.75em;
+    padding-right: 0.5em;
+    font-size: 0.5em;
   }
 
   .swatch-title {
@@ -139,6 +144,70 @@ footer {
   }
 }
 
+// Popover
+.popover {
+  position: absolute;
+  top: auto;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  max-width: 100%;
+  width: 100%;
+  z-index: 0;
+  display: none;
+  padding: 1em 1em 3em;
+  border-top: 1px solid map-get($grays, "medium");
+  border-right: none;
+  background-color: map-get($grays, "lightest");
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+
+  @include media-breakpoint-up("md") {
+    top: 0;
+    right: auto;
+    bottom: 0;
+    left: 0;
+    max-width: 80%;
+    width: 33.3333%;
+    border-top: none;
+    border-right: 1px solid map-get($grays, "medium");
+  }
+
+  &.active {
+  }
+
+  .popover-close {
+    font-size: 1.15em;
+    text-transform: uppercase;
+    font-weight: bold;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+
+  .popover-label {
+    font-size: 1.15em;
+    margin-bottom: 0.25em;
+  }
+
+  .popover-section {
+    margin-bottom: 1em;
+  }
+
+  .image-render {
+    margin-bottom: 1em;
+  }
+
+  @include media-breakpoint-down("xs") {
+    .zoning-column {
+      width: 50%;
+    }
+
+    .image-column {
+      display: none;
+    }
+  }
+}
+
 // Popup
 .popup-content {
   max-width: 30em;
@@ -159,14 +228,17 @@ footer {
   height: 50px;
   border-radius: 50%;
   background-color: rgba(230, 230, 230, 0.5);
-  border: 2px dashed #222222;
+  border: 2px dashed map-get($grays, "dark");
 }
 
 // Address search
 label[for="address-search"] {
   font-weight: bold;
 }
+
 .address-search {
+  z-index: 10;
+
   .mapboxgl-ctrl-geocoder {
     font-size: 1.25em;
     box-shadow: none;
@@ -199,6 +271,7 @@ label[for="address-search"] {
     }
 
     ul {
+      z-index: 10;
       margin: 0;
       padding: 0;
       font-size: 0.85em;
@@ -212,6 +285,10 @@ label[for="address-search"] {
 }
 
 // Some overrides for MapboxGL
+.mapboxgl-map {
+  @include font-styles("benton-sans");
+}
+
 .mapboxgl-ctrl-top-right {
   .mapboxgl-ctrl button,
   .mapboxgl-ctrl-group button {

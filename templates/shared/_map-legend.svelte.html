@@ -1,8 +1,8 @@
 <div class="map-legend">
-  <div class="legend-title">Minneapolis 2040 Plan built forms</div>
-  <div class="swatches row">
+  <div class="legend-title sr-only">Minneapolis 2040 Plan built forms</div>
+  <div class="swatches">
     {#each Object.entries(builtFormsColors) as [name, color]}
-      <div class="swatch col col-25 col-md-15 col-lg-10">
+      <div class="swatch">
         <span class="swatch-color" style="background-color: { color };"></span>
         <span class="swatch-title">{ name }</span>
       </div>

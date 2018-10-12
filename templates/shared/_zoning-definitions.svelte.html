@@ -2,11 +2,11 @@
   {#each Object.entries(zoningDefs) as [type, definitions]}
     {#if typeNames[type]}
       <h3 class="label">{ typeNames[type].title }</h3>
-      <p class="type-description">{ typeNames[type].description }</p>
+      <p class="type-description">{@html typeNames[type].description }</p>
 
       <ul class="definitions definitions-{ snakeCase(type) } row">
         {#each  definitions as def}
-          <li class="definition col col-50 col-md-33 col-lg-25 col-xl-20">
+          <li class="definition col col-100 col-md-33 col-lg-25 col-xl-20">
             <div class="definition-wrapper">
               {#if def['Image Render']}
                 <img class="image-render" src="./assets/images/built-forms/{ def['Image Render'] }" alt="Rendering of { def.Label}">
@@ -57,14 +57,12 @@
         typeNames: {
           "2040-built-form": {
             title: "2040 Plan Built Forms",
-            description:
-              "The Minneapolis 2040 Plan Built Form define ...  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
+            description: `The <a href="https://minneapolis2040.com/" target="_blank" rel="noopener">Minneapolis 2040 Plan</a> built forms define how structures can be used on specific land areas including height and number of structures.`
           },
           //"2040-land-use": "Minneapolis 2040 Plan land use definitions",
           zoning: {
             title: "Current Minneapolis Zoning",
-            description:
-              "The Minneapolis 2040 Plan Built Form define ...  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
+            description: `The current <a href="http://www.ci.minneapolis.mn.us/zoningmaps/zoning_code_index" target="_blank" rel="noopener">Minneapolis zoning code</a> describe in legal detail how land can be used in the city.  There is a Primary Zoning code and an Overlay Zoning code (not defined here) that adjusts the Primary code for certain parts of the city.`
           }
         }
       };
