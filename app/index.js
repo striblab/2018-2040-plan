@@ -49,8 +49,6 @@ let marker = new MapMarker({ map });
 
 // When ready
 map.on('load', () => {
-  console.log('a');
-
   // Create popover
   let popover = new Popover({ map });
   map.on('click', mapConfig.dataLayer, e => {

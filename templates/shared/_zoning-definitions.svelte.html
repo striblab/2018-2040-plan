@@ -4,7 +4,7 @@
       <h3 class="label">{ typeNames[type].title }</h3>
       <p class="type-description">{@html typeNames[type].description }</p>
 
-      <ul class="definitions definitions-{ snakeCase(type) } row">
+      <ul class="definitions definitions-{ kebabCase(type) } row">
         {#each  definitions as def}
           <li class="definition col col-100 col-md-33 col-lg-25 col-xl-20">
             <div class="definition-wrapper">
@@ -19,7 +19,7 @@
               <dl>
                 <dt>
                   { def.Code === def.Label ? def.Label : `${def.Code}: ${def.Label}` }
-                  {#if type = '2040-built-form' && builtFormsColors[def.Code]}
+                  {#if type === '2040-built-form' && builtFormsColors[def.Code]}
                     <span class="label-swatch" style="background-color: { builtFormsColors[def.Code] };"></span>
                   {/if}
                 </dt>
@@ -41,27 +41,30 @@
 </aside>
 
 <script>
-  import { groupBy, snakeCase } from "lodash";
+  import { groupBy, kebabCase, sortBy } from "lodash";
   import zoningDefs from "../../assets/data/zoning-definitions.json";
   import mapConfig from "../../app/shared/map-config.js";
 
   export default {
     helpers: {
-      snakeCase
+      kebabCase
     },
 
     data: () => {
       return {
         publishLocation:
           "http://static.startribune.com/news/projects/all/2018-2040-plan/",
-        zoningDefs: groupBy(zoningDefs, "Type"),
+        zoningDefs: groupBy(sortBy(zoningDefs, "Type"), "Type"),
         builtFormsColors: mapConfig.builtFormsColors,
         typeNames: {
           "2040-built-form": {
             title: "2040 Plan Built Forms",
             description: `The <a href="https://minneapolis2040.com/" target="_blank" rel="noopener">Minneapolis 2040 Plan</a> built forms define how structures can be used on specific land areas including height and number of structures.`
           },
-          //"2040-land-use": "Minneapolis 2040 Plan land use definitions",
+          "2040-land-use": {
+            title: "2040 Plan Land Use",
+            description: `The <a href="https://minneapolis2040.com/" target="_blank" rel="noopener">Minneapolis 2040 Plan</a> land use designations define the purpose of each parcel in the city.`
+          },
           zoning: {
             title: "Current Minneapolis Zoning",
             description: `The current <a href="http://www.ci.minneapolis.mn.us/zoningmaps/zoning_code_index" target="_blank" rel="noopener">Minneapolis zoning code</a> describes how land can be used in the city.  There is a Primary Zoning code and an Overlay Zoning code (not defined or pictured here) that adjusts the Primary code for certain parts of the city.`

@@ -139,7 +139,8 @@ footer {
     }
   }
 
-  .definitions-zoning .image-placeholder {
+  .definitions-zoning .image-placeholder,
+  .definitions-2040-land-use .image-placeholder {
     display: none;
   }
 }
@@ -155,7 +156,7 @@ footer {
   width: 100%;
   z-index: 0;
   display: none;
-  padding: 1em 1em 3em;
+  padding: 2.5em 1em 3em;
   border-top: 1px solid map-get($grays, "medium");
   border-right: none;
   background-color: map-get($grays, "lightest");
@@ -170,6 +171,10 @@ footer {
     width: 33.3333%;
     border-top: none;
     border-right: 1px solid map-get($grays, "medium");
+  }
+
+  .popover-content {
+    overflow-y: scroll;
   }
 
   &.active {
@@ -197,6 +202,10 @@ footer {
     margin-bottom: 1em;
   }
 
+  .image-elevation {
+    margin-bottom: 1em;
+  }
+
   @include media-breakpoint-down("xs") {
     .zoning-column {
       width: 50%;
@@ -204,6 +213,22 @@ footer {
 
     .image-column {
       display: none;
+    }
+  }
+
+  .land-use-under-built-form {
+    display: block;
+
+    @include media-breakpoint-up("md") {
+      display: none;
+    }
+  }
+
+  .land-use-column {
+    display: none;
+
+    @include media-breakpoint-up("md") {
+      display: block;
     }
   }
 }

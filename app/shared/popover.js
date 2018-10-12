@@ -51,6 +51,8 @@ class Popover {
       keyedDefinitions[
         `${e.features[0].properties.built_form}-2040-built-form`
       ];
+    let landDef =
+      keyedDefinitions[`${e.features[0].properties.land_use}-2040-land-use`];
     let hasImage = builtDef['Image Render'] || builtDef['Image Elevation'];
 
     return `
@@ -59,7 +61,7 @@ class Popover {
   hasImage ? 'col-33' : 'col-50'
 } col-md-100 zoning-column">
           <div class="popover-label">
-            From
+            Current zoning:
             <strong>
               ${e.features[0].properties.zone_code}:
               ${zoneDef.Label}
@@ -75,7 +77,7 @@ class Popover {
   hasImage ? 'col-33' : 'col-50'
 } col-md-100 zoning-column">
           <div class="popover-label">
-            To
+            Proposed built form:
             <strong>
               ${builtDef.Label}
             </strong>
@@ -83,6 +85,14 @@ class Popover {
 
           <div class="popover-section">
             ${builtDef['Strib Description'] || builtDef['Description']}
+          </div>
+
+
+          <div class="popover-label land-use-under-built-form">
+            Proposed land use:
+            <strong>
+              ${landDef.Label}
+            </strong>
           </div>
         </div>
 
@@ -112,6 +122,21 @@ class Popover {
                 '">'
     : ''
 }
+        </div>
+
+        <div class="col ${
+  hasImage ? 'col-33' : 'col-50'
+} col-md-100 land-use-column">
+          <div class="popover-label">
+            Proposed land use:
+            <strong>
+              ${landDef.Label}
+            </strong>
+          </div>
+
+          <div class="popover-section">
+            ${landDef['Strib Description'] || landDef['Description']}
+          </div>
         </div>
       </div>
     `;
