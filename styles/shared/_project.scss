@@ -49,8 +49,12 @@ footer {
 }
 
 .container-xxl .map-highlight {
-  height: 90vh;
+  height: 80vh;
   position: relative;
+
+  @include media-breakpoint-up("md") {
+    height: 90vh;
+  }
 }
 
 // Legend
