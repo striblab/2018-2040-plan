@@ -8,9 +8,10 @@ module.exports = {
   dataLayer: 'changed-grouped-atu4km',
   // TODO: Remove fresh
   //style: 'mapbox://styles/shadowflare/cjn24l6q300n12rpojx7vz1j7?fresh=true',
-  style: 'mapbox://styles/shadowflare/cjn24l6q300n12rpojx7vz1j7',
+  style: 'mapbox://styles/shadowflare/cjn24l6q300n12rpojx7vz1j7?fresh=true',
   builtFormsColors: {
     'Core 50': '#253494',
+    'Corridor 3': '#7fcdbb',
     'Corridor 4': '#41b6c4',
     'Corridor 6': '#2c7fb8',
     'Interior 1': '#78c679',

@@ -21,3 +21,10 @@ To perform data processing steps, run the following. Drake will tell you what st
   - `drake -w data.workflow %import`
   - `drake -w data.workflow %analysis`
   - `drake -w data.workflow %export`
+
+## Map
+
+The final exported analysis will be used to make a Mapbox map.
+
+1. The final export is at: `data/build/changed-grouped.geo.json`
+1. The data source that is used in the map is [`shadowflare.2m9lctvv`](https://www.mapbox.com/studio/tilesets/shadowflare.2m9lctvv/). You can replace the data for this source through the web interface.
