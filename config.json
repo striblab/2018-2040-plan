@@ -21,12 +21,6 @@
         "articleId": "489889431",
         "lcd": "489889521",
         "default": true
-      },
-      {
-        "id": "top-changes",
-        "articleId": "NEEDS-ARTICLE-ID",
-        "lcd": "NEEDS-LCD-ID",
-        "styles": "index"
       }
     ]
   },

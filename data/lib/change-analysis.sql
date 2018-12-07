@@ -4,13 +4,13 @@ DROP TABLE IF EXISTS code_changes;
 CREATE TABLE code_changes AS
 SELECT
 	m2040.gid AS m2040_gid,
-	m2040.lu_sept AS land_use,
-	m2040.bf_sept AS built_form,
+	m2040.ludec AS land_use,
+	m2040.bfdec AS built_form,
 	zoning.zone_code AS zone_code,
 	ST_SnapToGrid(ST_Intersection(m2040.geom, zoning.geom), 0.00001) AS intersection,
 	ST_Area(ST_Intersection(m2040.geom, zoning.geom::geography)) AS area
 FROM
-	mpls2040_20181004 AS m2040
+	mpls2040_20181205 AS m2040
 	LEFT JOIN mpls_primary_zoning AS zoning
 		ON ST_Intersects(m2040.geom, zoning.geom)
 WHERE

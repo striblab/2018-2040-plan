@@ -7,7 +7,8 @@ module.exports = {
     'pk.eyJ1Ijoic2hhZG93ZmxhcmUiLCJhIjoiS3pwY1JTMCJ9.pTSXx_LFgR3XBpCNNxWPKA',
   dataLayer: 'changed-grouped-atu4km',
   // TODO: Remove fresh
-  style: 'mapbox://styles/shadowflare/cjn24l6q300n12rpojx7vz1j7?fresh=true',
+  //style: 'mapbox://styles/shadowflare/cjn24l6q300n12rpojx7vz1j7?fresh=true',
+  style: 'mapbox://styles/shadowflare/cjn24l6q300n12rpojx7vz1j7',
   builtFormsColors: {
     'Core 50': '#253494',
     'Corridor 4': '#41b6c4',

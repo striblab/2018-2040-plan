@@ -19,4 +19,5 @@ To perform data processing steps, run the following. Drake will tell you what st
   - `drake -w data.workflow %decompress`
   - `drake -w data.workflow %convert`
   - `drake -w data.workflow %import`
+  - `drake -w data.workflow %analysis`
   - `drake -w data.workflow %export`
