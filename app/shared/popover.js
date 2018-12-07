@@ -5,8 +5,13 @@
 // Dependencies
 import { keyBy } from 'lodash';
 import zoningDefinitions from '../../assets/data/zoning-definitions.json';
+import customjQuery from 'jquery';
 
-/* global $ */
+// For some reason jQuery is not loading on the page in FF
+let $ = window.$;
+if (!$) {
+  $ = customjQuery;
+}
 
 // Keyed definitions
 const keyedDefinitions = keyBy(zoningDefinitions, d => `${d.Code}-${d.Type}`);

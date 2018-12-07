@@ -2,7 +2,16 @@
  * Simple class to handle marker
  */
 
-/* global $, mapboxgl */
+/* global mapboxgl */
+
+// Dependencies
+import customjQuery from 'jquery';
+
+// For some reason jQuery is not loading on the page in FF
+let $ = window.$;
+if (!$) {
+  $ = customjQuery;
+}
 
 // Main class
 class Marker {

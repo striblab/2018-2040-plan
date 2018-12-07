@@ -2,7 +2,7 @@
  * Main JS file for project.
  */
 
-/* global mapboxgl, MapboxGeocoder, $ */
+/* global mapboxgl, MapboxGeocoder */
 
 // Dependencies
 import utils from './shared/utils.js';
@@ -11,6 +11,13 @@ import definitions from './shared/zoning-definitions.js';
 import popupContent from './shared/popup.js';
 import MapMarker from './shared/marker.js';
 import Popover from './shared/popover.js';
+import customjQuery from 'jquery';
+
+// For some reason jQuery is not loading on the page in FF
+let $ = window.$;
+if (!$) {
+  $ = customjQuery;
+}
 
 // Mark page with note about development or staging
 utils.environmentNoting();

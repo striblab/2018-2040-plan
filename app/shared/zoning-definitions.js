@@ -2,8 +2,15 @@
  * Zoning definitions JS
  */
 
-/* global $ */
+// Dependencies
 import { maxBy } from 'lodash';
+import customjQuery from 'jquery';
+
+// For some reason jQuery is not loading on the page in FF
+let $ = window.$;
+if (!$) {
+  $ = customjQuery;
+}
 
 // Main export
 export default () => {
