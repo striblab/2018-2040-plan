@@ -9,6 +9,7 @@ data/sources/*
 # Exceptions like
 !data/sources/MPLS2040_Draft_FLU_BltFrm-20180730.zip
 !data/sources/MPLS2040Data-20181004.zip
+!data/sources/MPLS2040_FLU_BltFrm_Dec_5_2018.zip
 
 data/build/*
 # Exceptions like
