@@ -6,14 +6,13 @@ Analysis of the Minneapolis 2040 plan
   - https://minneapolis2040.com/topics/land-use-built-form/
   - Land Use revision: http://cityoflakes.maps.arcgis.com/apps/Minimalist/index.html?appid=cc17615d033b4d8fba3b0f581d4c5403
   - Built From revision: http://cityoflakes.maps.arcgis.com/apps/Minimalist/index.html?appid=2eb8e7a5b00c49f2a02bf1e8a6488690
+  - Different versions of the 2040 plan in shapefile format provided by the City of Minneapolis and can be found in
 - Minneapolis zoning data:
   - http://opendata.minneapolismn.gov/datasets/planning-primary-zoning
 - Minneapolis zoning definitions:
   - http://www.ci.minneapolis.mn.us/zoningmaps/zoning_code_index
 
 ## Data analysis
-
-_<Quickyly describe data needed for project.>_
 
 See [docs/data-analysis.md](./docs/data-analysis.md).
 

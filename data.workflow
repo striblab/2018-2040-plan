@@ -39,6 +39,10 @@ sources/mpls2040-20181004/MPLS2040Data/Mpls_2040_FLU_BltFrm_Sept_21_2018.shp, %d
   unzip -d $BASE/sources/mpls2040-20181004 -o $INPUT
   touch $OUTPUT
 
+sources/mpls2040-20181205/MPLS2040_FLU_BltFrm_Dec_5_2018.shp, %decompress <- sources/MPLS2040_FLU_BltFrm_Dec_5_2018.zip
+  unzip -d $BASE/sources/mpls2040-20181205 -o $INPUT
+  touch $OUTPUT
+
 
 ; Convert to 4326
 build/mpls-primary-planning-zones-4326/mpls-primary-planning-zones-4326.shp, %convert <- sources/minneapolis-primary-planning-zones/Planning_Primary_Zoning.shp
@@ -53,6 +57,10 @@ build/mpls2040-20181004-4326/mpls2040-20181004-4326.shp, %convert <- sources/mpl
   mkdir -p $BASE/build/mpls2040-20181004-4326
   ogr2ogr -f "ESRI Shapefile" $OUTPUT $INPUT -t_srs EPSG:4326 -overwrite
 
+build/mpls2040-20181205-4326/mpls2040-20181205-4326.shp, %convert <- sources/mpls2040-20181205/MPLS2040_FLU_BltFrm_Dec_5_2018.shp
+  mkdir -p $BASE/build/mpls2040-20181205-4326
+  ogr2ogr -f "ESRI Shapefile" $OUTPUT $INPUT -t_srs EPSG:4326 -overwrite
+
 
 ; Import into Postgres
 build/mpls-primary-planning-zones-4326.sql, %import <- build/mpls-primary-planning-zones-4326/mpls-primary-planning-zones-4326.shp
@@ -64,18 +72,22 @@ build/mpls2040-20180730-4326.sql, %import <- build/mpls2040-20180730-4326/mpls20
 build/mpls2040-20181004-4326.sql, %import <- build/mpls2040-20181004-4326/mpls2040-20181004-4326.shp
   shp2pgsql -d $BASE/build/mpls2040-20181004-4326/mpls2040-20181004-4326 mpls2040_20181004 > $OUTPUT
 
+build/mpls2040-20181205-4326.sql, %import <- build/mpls2040-20181205-4326/mpls2040-20181205-4326.shp
+  shp2pgsql -d $BASE/build/mpls2040-20181205-4326/mpls2040-20181205-4326 mpls2040_20181205 > $OUTPUT
+
 build/db-created, %db, %import <- [-timecheck]
   psql -U ${PG_USER:?"PG_USER needs to be set"} -c "SELECT 1 FROM pg_database WHERE datname = 'mpls2040'" | grep -q 1 || psql -U ${PG_USER:?"PG_USER needs to be set"} -c "CREATE DATABASE mpls2040" && \
   psql -U ${PG_USER:?"PG_USER needs to be set"} -d mpls2040 -c "CREATE EXTENSION IF NOT EXISTS postgis;" && \
   psql -U ${PG_USER:?"PG_USER needs to be set"} -d mpls2040 -c "CREATE EXTENSION IF NOT EXISTS postgis_topology;" && \
   touch $OUTPUT
 
-build/db-tables-imported, %db, %import <- build/db-created, build/mpls-primary-planning-zones-4326.sql, build/mpls2040-20180730-4326.sql, build/mpls2040-20181004-4326.sql, sources/zoning-definitions.sql, lib/fix-geometries.sql
+build/db-tables-imported, %db, %import <- build/db-created, build/mpls-primary-planning-zones-4326.sql, build/mpls2040-20180730-4326.sql, build/mpls2040-20181004-4326.sql, build/mpls2040-20181205-4326.sql, sources/zoning-definitions.sql, lib/fix-geometries.sql
   psql -U ${PG_USER:?"PG_USER needs to be set"} -d mpls2040 < $INPUT1
   psql -U ${PG_USER:?"PG_USER needs to be set"} -d mpls2040 < $INPUT2
   psql -U ${PG_USER:?"PG_USER needs to be set"} -d mpls2040 < $INPUT3
   psql -U ${PG_USER:?"PG_USER needs to be set"} -d mpls2040 < $INPUT4
   psql -U ${PG_USER:?"PG_USER needs to be set"} -d mpls2040 < $INPUT5
+  psql -U ${PG_USER:?"PG_USER needs to be set"} -d mpls2040 < $INPUT6
   touch $OUTPUT
 
 
